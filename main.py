@@ -11,6 +11,17 @@ with open('responser.csv', newline='', encoding='utf-8') as csvfile:
         # Append the row to the data list
         data.append(row)
 
+def parse_score(value):
+    try:
+        return int(value)
+    except ValueError:
+        if value.strip().lower() == 'ja':
+            return 1
+        elif value.strip().lower() == 'nei':
+            return 0
+        return None  # Return None for invalid entries
+
+
 # Initialize lists to hold scores for each question
 mobile_navigation_scores = []
 pc_navigation_scores = []
@@ -139,18 +150,18 @@ pc_stds = [
 bars1 = ax.bar(x - width/2, mobile_avgs, width, yerr=mobile_stds, label='Mobil', color='blue', capsize=10, alpha=0.7)
 bars2 = ax.bar(x + width/2, pc_avgs, width, yerr=pc_stds, label='PC', color='green', capsize=10, alpha=0.7)
 
-# Set titles and labels
-ax.set_title('Gjennomsnittlige tilfredsstilhet med feilmargin (stdev)')
-ax.set_ylabel('Gjennomsnittlig score')
+# Set titles and labels with larger fonts
+ax.set_title('Gjennomsnittlige tilfredsstilhet med feilmargin (stdev)', fontsize=20)
+ax.set_ylabel('Gjennomsnittlig score', fontsize=16)
 ax.set_xticks(x)
-ax.set_xticklabels(x_labels, rotation=45, ha='right')
-ax.legend()
+ax.set_xticklabels(x_labels, rotation=45, ha='right', fontsize=14)
+ax.legend(fontsize=14)
 
-# Adding data labels inside the bars
+# Adding data labels inside the bars with larger font size
 for bars in [bars1, bars2]:
     for bar in bars:
         yval = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2, yval - 0.2, f'{yval:.2f}', ha='center', va='top', fontsize=10, color='white', fontweight='bold')
+        ax.text(bar.get_x() + bar.get_width()/2, yval - 0.2, f'{yval:.2f}', ha='center', va='top', fontsize=12, color='white', fontweight='bold')
 
 # Adjust layout
 plt.tight_layout()
